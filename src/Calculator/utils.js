@@ -1,21 +1,21 @@
+const OPS = /\D(?=[+/*\-=.])/g; ///\D(?=\D)/g <- another handy regEx;
 // calcular resultado
 export function handleOperation(arr) {
-  let x =  arr.map( x => {
-   return x.isNaN ? 'op' : x;
-  })
-
+  let x = eval(arr
+    .join("")
+    .replace(OPS,""))   
   return x;
 }
-
 // manipular entrada de dados
-export function parseNumber(num, val = 0) {
+// todo: permitir repetição de " -"
+function parseNumber(num, val = 0) {
   if(Number.isNaN(Number(num))) {
-    if (num[num.length - 1] === val) {
-        return num;
+    if (num[num.length - 1].isNaN) {
+        return val;
       }
   }
   return num + val;
-} 
+}
 
 export function customSetter (obj, val) {
   const operator = () => {
@@ -35,7 +35,7 @@ export function customSetter (obj, val) {
       default: 
         return '';
     }
-  }
+  };
 
   return {
     display: obj.display === 0  ?  val : parseNumber(obj.display, val),
