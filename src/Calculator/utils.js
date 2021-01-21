@@ -1,26 +1,26 @@
 const OPS = /\D(?=[+/*\-=.])/g; ///\D(?=\D)/g <- another handy regEx;
 // calcular resultado
 function handleOperation(arr, op, res) {
-  debugger
+  
   let x = arr;
   if(x[x.length -1] === op) {
-    return res;
+  return x.join("").replace(/[-+*/=]/,"");
   }
   return eval(x.join("").replace(OPS,"")) ;
 }
 // manipular entrada de dados
-// to-do: permitir repetição de " -"
+// to-do: permitir repetição de "-"
 function parseNumber(val, expr, res) {
   
-  if(res === null) {
+  if(res === "") {
     return expr.concat(val).join("") // still needs to remove last value to screen
   }
-  return res + val;
+  return res + (val);
 
 }
 
 export function customSetter (obj, val) {
-  let result = null;
+  let result = "";
   const operator = () => {
     switch(val) {
       case '*':
