@@ -1,47 +1,53 @@
 const OPS = /\D(?=[+/*\-=.])/g; ///\D(?=\D)/g <- another handy regEx;
 // calcular resultado
-export function handleOperation(arr) {
-  let x = eval(arr
-    .join("")
-    .replace(OPS,""))   
-  return x;
+function handleOperation(arr, op, res) {
+  debugger
+  let x = arr;
+  if(x[x.length -1] === op) {
+    return res;
+  }
+  return eval(x.join("").replace(OPS,"")) ;
 }
 // manipular entrada de dados
-// todo: permitir repetição de " -"
-function parseNumber(num, val = 0) {
-  if(Number.isNaN(Number(num))) {
-    if (num[num.length - 1].isNaN) {
-        return val;
-      }
+// to-do: permitir repetição de " -"
+function parseNumber(val, expr, res) {
+  
+  if(res === null) {
+    return expr.concat(val).join("") // still needs to remove last value to screen
   }
-  return num + val;
+  return res + val;
+
 }
 
 export function customSetter (obj, val) {
+  let result = null;
   const operator = () => {
     switch(val) {
       case '*':
-        return 'mult';
+        return '*';
 
       case '-':
-        return 'mult';
+        return '-';
 
       case '/':
-          return 'mult';
+          return '/';
 
       case '+':
-        return 'add';
-
+        return '+';
+      
       default: 
-        return '';
+        return 'number';
     }
-  };
+  }
+  if(val === "="){ // tratamento de resultado
+    result = handleOperation(obj.expression, obj.operation, obj.result);
+  }
 
   return {
-    display: obj.display === 0  ?  val : parseNumber(obj.display, val),
-    operation: operator,
-    expression:  [...obj.expression, val],
-    result: null,
-    lastValue: val
+    display: val === "=" ? result : parseNumber(val, obj.expression, obj.result),
+    operation: operator(),
+    expression:  result ? [result] : [...obj.expression, val],
+    lastValue: val,
+    result: result
   }
 }

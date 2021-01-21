@@ -7,7 +7,7 @@ const CalcDisplay = props => {
         className="form-control"
         value={props.display}
         disabled="disabled"
-      />
+      />  
     </>
   );
 }

@@ -40,10 +40,21 @@
 }
 
 #display {
+  max-width:max-content;
   text-align: right;
   font-size: 20px;
   margin-top: 10px;
   margin-bottom: 20px;
   border: solid 1px #000;
   box-shadow: 1px 1px 1px #000;
+  letter-spacing: normal;
+  letter-spacing: 2px;
 }
+
+.bottom-row {
+  // display: block;
+  margin-top: -60px;
+  margin-left: auto;
+  
+}
+

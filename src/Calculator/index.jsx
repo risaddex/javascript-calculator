@@ -1,6 +1,6 @@
 import React from 'react';
 import Keyboard from "./Keyboard";
-import { handleOperation, customSetter } from './utils';
+import { customSetter } from './utils';
 
 
 class Calculator extends React.Component {
@@ -16,9 +16,6 @@ class Calculator extends React.Component {
     this.clearDisplay = this.clearDisplay.bind(this);
     this.onInput = this.onInput.bind(this);
   }
-  componentDidMount() {
-    //soon tm
-  }
 
   clearDisplay() {
     this.setState({
@@ -26,21 +23,14 @@ class Calculator extends React.Component {
       operation: null,
       lastValue: "",
       expression: [],
-      result: 0,
+      result: null,
     })
   }
   // manipulate input values
   onInput(val) {
-    const s = this.state;
-    if(val === '=' && s.expression) { // tratamento de resultado
-      let result = handleOperation(s.expression);
-      this.setState({
-        display: result
-      })
-    } else {
       this.setState(customSetter(this.state, val))
     }
-  }
+  
 
   render() {
     return(
