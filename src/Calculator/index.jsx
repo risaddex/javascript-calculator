@@ -7,7 +7,7 @@ class Calculator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      display: 0,
+      display: '0',
       operation: null,
       lastValue: '',
       expression: '0',
@@ -19,7 +19,7 @@ class Calculator extends React.Component {
 
   clearDisplay() {
     this.setState({
-      display: 0,
+      display: '0',
       operation: null,
       lastValue: '',
       expression: '0',
