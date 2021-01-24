@@ -9,9 +9,9 @@ class Calculator extends React.Component {
     this.state = {
       display: 0,
       operation: null,
-      lastValue: "",
-      expression: [],
-      result: null
+      lastValue: '',
+      expression: '0',
+      result: ''
     }
     this.clearDisplay = this.clearDisplay.bind(this);
     this.onInput = this.onInput.bind(this);
@@ -21,14 +21,22 @@ class Calculator extends React.Component {
     this.setState({
       display: 0,
       operation: null,
-      lastValue: "",
-      expression: [],
-      result: null,
+      lastValue: '',
+      expression: '0',
+      result: ''
     })
   }
   // manipulate input values
   onInput(val) {
+    if(this.state.display.length >= 21) {
+      this.setState({
+        expression: this.state.display,
+        display: this.state.display,
+        result: this.state.display
+      })
+    } else {
       this.setState(customSetter(this.state, val))
+    }
     }
   
 

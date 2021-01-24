@@ -1,26 +1,16 @@
-const OPS = /\D(?=[+/*\-=.])/g; ///\D(?=\D)/g <- another handy regEx;
-// calcular resultado
-function handleOperation(arr, op, res) {
-  
-  let x = arr;
-  if(x[x.length -1] === op) {
-  return x.join("").replace(/[-+*/=]/,"");
-  }
-  return eval(x.join("").replace(OPS,"")) ;
-}
-// manipular entrada de dados
-// to-do: permitir repetição de "-"
-function parseNumber(val, expr, res) {
-  
-  if(res === "") {
-    return expr.concat(val).join("") // still needs to remove last value to screen
-  }
-  return res + (val);
-
-}
+const OPS = /[-*+/=]{2}$/g; ///\D(?=\D)/g <- another handy regEx;
+const NEGATIVE = /\d[x/+‑]{1}‑$/;
+const PREREQ = /([^.0-9]0|^0)$/;
+const ZERO = /^[0]+(?!0)+/g;
+const isOperator = /[-*+/=.]/g;
+const MINUS = /\d-$/g;
+const DOT = /[-+/*]?\d+\.\d*$/;
 
 export function customSetter (obj, val) {
-  let result = "";
+  debugger
+  let d = obj.display;
+  let result = '';
+  let expression = obj.expression;
   const operator = () => {
     switch(val) {
       case '*':
@@ -35,19 +25,42 @@ export function customSetter (obj, val) {
       case '+':
         return '+';
       
+      case '.':
+        return '.';
+      
+      case '=':
+          return '=';
+
       default: 
         return 'number';
     }
   }
-  if(val === "="){ // tratamento de resultado
-    result = handleOperation(obj.expression, obj.operation, obj.result);
-  }
+  
+  if(val === '.') { 
+    if(/\.$/.test(expression)) expression = expression.slice(0, -1);
+    if(DOT.test(expression)) expression = expression;
+  } 
+ 
+  if(PREREQ.test(expression)) expression = expression.slice(0, -1) + val;
+ 
+  else expression += val
+  
 
+  if(val.match(isOperator)) {
+    if(expression.match(OPS)){
+      expression = expression.slice(0, -2) + val;
+    } 
+  }
+  
+  result = operator() === '=' ? eval(expression.slice(0,-1)) : `${expression}`
+       
   return {
-    display: val === "=" ? result : parseNumber(val, obj.expression, obj.result),
+    display: result ? result : 0,
     operation: operator(),
-    expression:  result ? [result] : [...obj.expression, val],
+    expression: result ? result : '0',    
     lastValue: val,
-    result: result
+    result: ''
   }
 }
+
+///todo put current expression to handle 0 and . cases
