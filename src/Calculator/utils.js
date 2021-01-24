@@ -1,3 +1,4 @@
+/* eslint-disable no-eval */
 const OPS = /\d?[*/+.]{2}$/;
 const PREREQ = /([^.0-9]0|^0)$/; //verifica se há um zero no inicio ou após um operador (zero à esquerda)
 const isOperator = /[-.*+/]$/; //verifica se é operador
